@@ -1,0 +1,3 @@
+[submodule "deps/hlod"]
+	path = deps/hlod
+	url = https://github.com/PupsDev/hlod-module.git
