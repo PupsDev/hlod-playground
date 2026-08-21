@@ -5,6 +5,9 @@
 #include "polyscope_helper/polyscope_helper.h"
 #include <hlod/builder/builder.h>
 namespace hlod {
+  struct HLODManagerParameters {
+    BuilderParameters builder_parameters;
+  };
   class HLODManager
   {
     public:
@@ -17,12 +20,27 @@ namespace hlod {
     }
     void partition()
     {
+      //parameters_.builder_parameters.partition_method = PartitionMethod::METIS;
+      builder.setParameters(parameters_.builder_parameters);
       builder.computeInitialPartition();
-      auto partition = builder.meshPartition();
+      const auto partition = builder.meshPartition();
       addSurfaceMeshColorQuantity(coolMeshName, "partition", partition);
     }
+    /*
+    void gridPartition()
+    {
 
+      parameters_.builder_parameters.partition_method = PartitionMethod::GRID;
+      builder.setParameters(parameters_.builder_parameters);
+      builder.computeInitialPartition();
+      const auto partition = builder.meshPartition();
+      addSurfaceMeshColorQuantity(coolMeshName, "grid_partition", partition);
+    }**/
+    void setParameters( const HLODManagerParameters& parameters) {
+      parameters_ = parameters;
+    }
 
+    HLODManagerParameters parameters_;
     Builder builder;
     std::string coolMeshName = "mesh";
     Eigen::MatrixXd vertices_;

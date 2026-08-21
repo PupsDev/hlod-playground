@@ -31,5 +31,8 @@ std::vector<glm::vec3> getColors(const std::vector<int>& ids)
 
 void addSurfaceMeshColorQuantity(const std::string& meshName,const std::string& quantityName, const std::vector<int>& labels )
 {
-    polyscope::getSurfaceMesh(meshName)->addFaceColorQuantity(quantityName , getColors(labels));
+    if(polyscope::getSurfaceMesh(meshName)->nFaces() == labels.size())
+        polyscope::getSurfaceMesh(meshName)->addFaceColorQuantity(quantityName , getColors(labels));
+    else
+        polyscope::getSurfaceMesh(meshName)->addVertexColorQuantity(quantityName , getColors(labels));
 }
